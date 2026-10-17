@@ -1,0 +1,23 @@
+name: Build Camera Driver
+
+on: [push, workflow_dispatch]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Build with ESP-IDF
+        uses: espressif/esp-idf-ci-action@v1
+        with:
+          esp_idf_version: v5.4
+          target: esp32p4
+          path: '.'
+
+      - name: Upload compiled library
+        uses: actions/upload-artifact@v4
+        with:
+          name: libespressif__esp_cam_sensor
+          path: build/esp-idf/espressif__esp_cam_sensor/libespressif__esp_cam_sensor.a
